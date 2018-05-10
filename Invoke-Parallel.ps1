@@ -195,7 +195,7 @@
         {
             $script:MaxQueue = $MaxQueue
         }
-
+        $ProgressId = Get-Random
         Write-Verbose "Throttle: '$throttle' SleepTimer '$sleepTimer' runSpaceTimeout '$runspaceTimeout' maxQueue '$maxQueue' logFile '$logFile'"
 
         #If they want to import variables or modules, create a clean runspace, get loaded items, use those to exclude items
@@ -256,7 +256,7 @@
 
                     #Progress bar if we have inputobject count (bound parameter)
                     if (-not $Quiet) {
-						Write-Progress  -Activity "Running Query" -Status "Starting threads"`
+						Write-Progress -Id $ProgressId -Activity "Running Query" -Status "Starting threads"`
 							-CurrentOperation "$startedCount threads defined - $totalCount input objects - $script:completedCount input objects processed"`
 							-PercentComplete $( Try { $script:completedCount / $totalCount * 100 } Catch {0} )
 					}
@@ -591,7 +591,7 @@
             Get-RunspaceData -wait
 
             if (-not $quiet) {
-			    Write-Progress -Activity "Running Query" -Status "Starting threads" -Completed
+			    Write-Progress -Id $ProgressId -Activity "Running Query" -Status "Starting threads" -Completed
 		    }
 
         }
